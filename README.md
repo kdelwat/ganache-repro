@@ -22,7 +22,9 @@ Ganache, and waits for a transaction receipt for each.
 
 When `N_CPUS = 1` (no concurrency), all receipts return OK.
 
-When `N_CPUS = 4`, most of the time receipts hang. Some transactions are stuck
-in the txpool.
+When `N_CPUS = 32`, or other high numbers, transactions will intermittently be
+stuck in the txpool. They're visible by calling `txpool_content` via RPC:
 
+```
 curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_content","params":[], "id":1}' http://127.0.0.1:8888
+```

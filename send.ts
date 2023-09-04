@@ -2,7 +2,7 @@ import { ContractFactory, Wallet, ethers } from "ethers";
 const cluster = require("cluster");
 
 // Change these to try different scenarios
-const N_CPUS = 16;
+const N_CPUS = 32;
 const TRANSACTIONS_PER_CPU = 256;
 const TRANSACTION_COUNT = N_CPUS * TRANSACTIONS_PER_CPU;
 
@@ -69,10 +69,9 @@ async function runWorker(signedTxs: string[]) {
     url: PROVIDER_URL,
   });
 
-  const receipts: any[] = [];
-  for (const signedTx of signedTxs) {
-    receipts.push(await submitSignedTransaction(provider, signedTx));
-  }
+  const receipts: any[] = await Promise.all(
+    signedTxs.map((tx) => submitSignedTransaction(provider, tx))
+  );
 
   for (const tx of receipts) {
     try {
