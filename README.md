@@ -9,10 +9,8 @@
 ## Test scenario
 
 This repo reproduces a bug in Ganache where transactions with manually-assigned nonces
-become stuck in the `queued` TX pool state, when
-
-- they are submitted by multiple processes concurrently.
-- Ganache is in `instamine` mode.
+become stuck in the `queued` TX pool state, when they are submitted by multiple
+processes concurrently.
 
 `send.ts` generates a number of transactions with sequential nonces
 (`TRANSACTIONS_PER_CPU`). It creates a random Ethereum keypair and signs each
