@@ -16,7 +16,6 @@ async function main() {
     },
     miner: {
       instamine: "strict",
-      //blockTime: 2,
     },
   };
 
@@ -26,6 +25,7 @@ async function main() {
   server.listen(8777, function () {
     console.log(`Ethereum RPC listening on port 8777`);
 
+    // @ts-ignore
     const provider = new ethers.providers.Web3Provider(server.provider);
     provider.pollingInterval = 100;
 
