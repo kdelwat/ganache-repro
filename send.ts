@@ -1,6 +1,16 @@
 import { ContractFactory, Wallet, ethers } from "ethers";
 const cluster = require("cluster");
 
+// Change these to try different scenarios
+const N_CPUS = 16;
+const TRANSACTIONS_PER_CPU = 256;
+const TRANSACTION_COUNT = N_CPUS * TRANSACTIONS_PER_CPU;
+
+if (TRANSACTION_COUNT % N_CPUS !== 0) {
+  throw new Error("TRANSACTION_COUNT must be divisible by N_CPUS");
+}
+
+// These can remain constant; they don't seem to have an affect on the bug
 const GAS_LIMIT: number = 173980512; // High gas limit
 const GAS_PRICE: number = 0; // Free gas
 const CONTRACT_BYTECODE =
@@ -8,13 +18,6 @@ const CONTRACT_BYTECODE =
 const PROVIDER_URL = "http://localhost:8777";
 const RECEIPT_TIMEOUT = 20000;
 const RECEIPT_CONFIRMATIONS = 1;
-
-const N_CPUS = 4;
-const TRANSACTION_COUNT = N_CPUS * 4;
-
-if (TRANSACTION_COUNT % N_CPUS !== 0) {
-  throw new Error("TRANSACTION_COUNT must be divisible by N_CPUS");
-}
 
 if (cluster.isMaster) {
   runController().catch((e) => console.log(e));

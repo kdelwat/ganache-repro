@@ -12,7 +12,7 @@ async function main() {
       asyncRequestProcessing: true,
     },
     logging: {
-      verbose: true,
+      verbose: false,
     },
     miner: {
       instamine: "strict",
