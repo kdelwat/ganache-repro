@@ -16,6 +16,7 @@ async function main() {
     },
     miner: {
       instamine: "strict",
+      //blockTime: 2,
     },
   };
 
