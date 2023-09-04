@@ -22,9 +22,20 @@ Ganache, and waits for a transaction receipt for each.
 
 When `N_CPUS = 1` (no concurrency), all receipts return OK.
 
-When `N_CPUS = 32`, or other high numbers, transactions will intermittently be
-stuck in the txpool. They're visible by calling `txpool_content` via RPC:
+### Bug
+
+On some runs, when `N_CPUS = 32`, or other high numbers, transactions will get
+stuck in the txpool in the queued state.
+
+The Ganache logs will show no activity except for `eth_blockNumber` and `eth_chainId`;
+and `send.ts` will eventually exit.
+
+Looking at the TX pool, you will see many queued transactions:
 
 ```
 curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_content","params":[], "id":1}' http://127.0.0.1:8888
 ```
+
+The smallest nonce of the queued transactions will match the current `from` account
+nonce; i.e. the nonce of the sender has been incremented correctly but queued transactions
+have not been triggered and are stuck.
