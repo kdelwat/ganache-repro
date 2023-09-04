@@ -9,7 +9,7 @@ async function main() {
     vmErrorsOnRPCResponse: false, // Consistent with Besu
     hardfork: "berlin",
     chain: {
-      asyncRequestProcessing: false,
+      asyncRequestProcessing: true,
     },
     logging: {
       verbose: true,
